@@ -1,13 +1,3 @@
-#!/bin/bash
-#SBATCH --job-name=kneaddata_5301_5400
-#SBATCH --account=project_2012806
-#SBATCH --partition=small
-#SBATCH --time=24:00:00
-#SBATCH --mem=370G
-#SBATCH --cpus-per-task=40
-#SBATCH --output=kneaddata_5301_5400_%j.out
-#SBATCH --error=kneaddata_5301_5400_%j.err
-
 # ============================================================
 # Representative KneadData quality-control and host-removal batch
 # ============================================================
@@ -15,11 +5,12 @@
 # quality control and host-read removal in the Parkinson's disease gut
 # metagenome meta-analysis.
 #
-# The full dataset contained 1,609 shotgun metagenomic samples and was
-# processed in multiple SLURM batches on Puhti for scheduling and
-# resource-management purposes. All batches used the same KneadData
-# workflow and software environment; only the sample ID range was changed
-# between batches.
+# The final analyzed dataset contained 1,609 shotgun metagenomic samples
+# after standardized quality control and host-read removal. Upstream
+# processing was performed in multiple SLURM batches on Puhti for
+# scheduling and resource-management purposes. All batches used the same
+# KneadData workflow, software environment, and database paths; only the
+# sample ID range was changed between batches.
 #
 # This representative batch processes samples SRR19065301 to SRR19065400.
 #
