@@ -1,0 +1,195 @@
+# ============================================================
+# HUMAnN functional profiling for shotgun metagenomic samples
+# ============================================================
+# This script performs functional profiling of shotgun metagenomic
+# samples using HUMAnN after standardized read-level quality control
+# and host-read removal with KneadData.
+#
+# KneadData-processed paired-end reads are concatenated into a single
+# FASTQ file before HUMAnN analysis, following the standard HUMAnN
+# input format for metagenomic profiling.
+#
+# HUMAnN was used to quantify microbial gene families, pathway
+# abundance, and pathway coverage. MetaPhlAn was called internally
+# by HUMAnN for taxonomic prescreening using the specified MetaPhlAn
+# database and index.
+#
+# Input:
+#   KneadData-processed paired-end FASTQ files
+#
+# Main outputs:
+#   - gene family abundance profiles
+#   - pathway abundance profiles
+#   - pathway coverage profiles
+#
+# These outputs were subsequently used for downstream functional
+# analysis, pathway-level association testing, and figure generation
+# in the manuscript.
+# ============================================================
+
+#!/bin/bash
+#SBATCH --job-name=humann_4320_4390
+#SBATCH --account=project_2015601
+#SBATCH --time=3:30:00
+#SBATCH --array=0-70%2             # 71 samples total: SRR19064320–SRR19064390; run max 2 tasks in parallel
+#SBATCH --ntasks=1
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=40
+#SBATCH --mem=370G
+#SBATCH --partition=small
+#SBATCH --output=/scratch/project_2012191/chifang1/HUMAnN/1_4318_4390/log/humann_4320_4390_%A_%a.out
+#SBATCH --error=/scratch/project_2012191/chifang1/HUMAnN/1_4318_4390/log/humann_4320_4390_%A_%a.err
+
+# ============================================================
+# HUMAnN functional profiling for shotgun metagenomic samples
+# ============================================================
+# This script runs HUMAnN on KneadData-processed paired-end reads.
+# For each sample, forward and reverse reads are concatenated into
+# a single FASTQ file before HUMAnN profiling.
+#
+# Input:
+#   KneadData-processed paired-end FASTQ files
+#
+# Output:
+#   HUMAnN genefamilies, pathway abundance, and pathway coverage files
+#
+# Sample range:
+#   SRR19064320 to SRR19064390
+# ============================================================
+
+set -euo pipefail
+
+# -------------------------
+# 1. Software environment
+# -------------------------
+source /scratch/project_2012191/chifang1/00_Software/miniconda3/etc/profile.d/conda.sh
+conda activate humann4_env
+
+# -------------------------
+# 2. Input and output directories
+# -------------------------
+INPUT_DIR="/scratch/project_2012191/chifang1/Kneaddata/QC_4318_4390"
+OUTPUT_DIR="/scratch/project_2012191/chifang1/HUMAnN/1_4318_4390"
+COMBINED_DIR="${OUTPUT_DIR}/combined_fastq"
+LOG_DIR="${OUTPUT_DIR}/log"
+
+mkdir -p "${COMBINED_DIR}" "${LOG_DIR}"
+
+# -------------------------
+# 3. Database paths
+# -------------------------
+CHOCOPHLAN_DB="/scratch/project_2012191/chifang1/00_Databases/HUMAnN_5523/chocophlan"
+UNIREF_DB="/scratch/project_2012191/chifang1/00_Databases/HUMAnN_5523/uniref"
+METAPHLAN_DB="/scratch/project_2012191/chifang1/00_Databases/metaphlan_db"
+METAPHLAN_INDEX="mpa_vJun23_CHOCOPhlAnSGB_202403"
+
+# -------------------------
+# 4. Sample range
+# -------------------------
+START_ID=19064320
+END_ID=19064390
+
+SAMPLE_NUM=$(seq "${START_ID}" "${END_ID}" | sed -n "$((SLURM_ARRAY_TASK_ID + 1))p")
+
+if [[ -z "${SAMPLE_NUM}" ]]; then
+    echo "Invalid SLURM array task ID: ${SLURM_ARRAY_TASK_ID}" >> "${LOG_DIR}/script_completion.log"
+    exit 1
+fi
+
+SAMPLE_NAME="SRR${SAMPLE_NUM}"
+SAMPLE_OUTPUT_DIR="${OUTPUT_DIR}/${SAMPLE_NAME}"
+LOG_FILE="${LOG_DIR}/${SAMPLE_NAME}_humann.log"
+
+mkdir -p "${SAMPLE_OUTPUT_DIR}"
+
+# -------------------------
+# 5. Input files
+# -------------------------
+FORWARD_FILE="${INPUT_DIR}/${SAMPLE_NAME}_1_kneaddata_paired_1.fastq"
+REVERSE_FILE="${INPUT_DIR}/${SAMPLE_NAME}_1_kneaddata_paired_2.fastq"
+COMBINED_FILE="${COMBINED_DIR}/${SAMPLE_NAME}_combined.fastq"
+
+echo "============================================================" >> "${LOG_FILE}"
+echo "Sample: ${SAMPLE_NAME}" >> "${LOG_FILE}"
+echo "SLURM array task ID: ${SLURM_ARRAY_TASK_ID}" >> "${LOG_FILE}"
+echo "Start time: $(date)" >> "${LOG_FILE}"
+echo "Forward read: ${FORWARD_FILE}" >> "${LOG_FILE}"
+echo "Reverse read: ${REVERSE_FILE}" >> "${LOG_FILE}"
+echo "============================================================" >> "${LOG_FILE}"
+
+# -------------------------
+# 6. Check input files
+# -------------------------
+if [[ ! -f "${FORWARD_FILE}" ]]; then
+    echo "Forward read file not found: ${FORWARD_FILE}. Skipping sample ${SAMPLE_NAME}." >> "${LOG_FILE}"
+    exit 0
+fi
+
+if [[ ! -f "${REVERSE_FILE}" ]]; then
+    echo "Reverse read file not found: ${REVERSE_FILE}. Skipping sample ${SAMPLE_NAME}." >> "${LOG_FILE}"
+    exit 0
+fi
+
+# -------------------------
+# 7. Concatenate paired-end reads
+# -------------------------
+echo "Concatenating forward and reverse reads for sample ${SAMPLE_NAME}..." >> "${LOG_FILE}"
+
+cat "${FORWARD_FILE}" "${REVERSE_FILE}" > "${COMBINED_FILE}"
+
+if [[ ! -s "${COMBINED_FILE}" ]]; then
+    echo "Combined FASTQ file was not created or is empty: ${COMBINED_FILE}" >> "${LOG_FILE}"
+    exit 1
+fi
+
+# -------------------------
+# 8. Run HUMAnN
+# -------------------------
+echo "Running HUMAnN for sample ${SAMPLE_NAME}..." >> "${LOG_FILE}"
+
+humann \
+    --input "${COMBINED_FILE}" \
+    --output "${SAMPLE_OUTPUT_DIR}" \
+    --threads "${SLURM_CPUS_PER_TASK}" \
+    --nucleotide-database "${CHOCOPHLAN_DB}" \
+    --protein-database "${UNIREF_DB}" \
+    --metaphlan-options "--bowtie2db ${METAPHLAN_DB} --index ${METAPHLAN_INDEX}" \
+    >> "${LOG_FILE}" 2>&1
+
+# -------------------------
+# 9. Check HUMAnN output files
+# -------------------------
+echo "Checking HUMAnN output files..." >> "${LOG_FILE}"
+
+for OUTPUT_TYPE in genefamilies.tsv pathabundance.tsv pathcoverage.tsv; do
+    OUTPUT_FILE="${SAMPLE_OUTPUT_DIR}/${SAMPLE_NAME}_combined_${OUTPUT_TYPE}"
+
+    if [[ -f "${OUTPUT_FILE}" ]]; then
+        echo "Generated output file: ${OUTPUT_FILE}" >> "${LOG_FILE}"
+    else
+        echo "Warning: expected output file not found: ${OUTPUT_FILE}" >> "${LOG_FILE}"
+    fi
+done
+
+# -------------------------
+# 10. Remove temporary files
+# -------------------------
+TEMP_DIR="${SAMPLE_OUTPUT_DIR}/${SAMPLE_NAME}_combined_humann_temp"
+
+if [[ -d "${TEMP_DIR}" ]]; then
+    echo "Removing HUMAnN temporary directory: ${TEMP_DIR}" >> "${LOG_FILE}"
+    rm -rf "${TEMP_DIR}"
+    echo "Temporary directory removed: ${TEMP_DIR}" >> "${LOG_FILE}"
+fi
+
+if [[ -f "${COMBINED_FILE}" ]]; then
+    echo "Removing combined FASTQ file: ${COMBINED_FILE}" >> "${LOG_FILE}"
+    rm -f "${COMBINED_FILE}"
+fi
+
+# -------------------------
+# 11. Finish
+# -------------------------
+echo "HUMAnN analysis completed for sample ${SAMPLE_NAME}." >> "${LOG_FILE}"
+echo "End time: $(date)" >> "${LOG_FILE}"
+echo "${SAMPLE_NAME} completed at $(date)" >> "${LOG_DIR}/script_completion.log"
