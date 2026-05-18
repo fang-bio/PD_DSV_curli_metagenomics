@@ -1,32 +1,3 @@
-# ============================================================
-# HUMAnN functional profiling for shotgun metagenomic samples
-# ============================================================
-# This script performs functional profiling of shotgun metagenomic
-# samples using HUMAnN after standardized read-level quality control
-# and host-read removal with KneadData.
-#
-# KneadData-processed paired-end reads are concatenated into a single
-# FASTQ file before HUMAnN analysis, following the standard HUMAnN
-# input format for metagenomic profiling.
-#
-# HUMAnN was used to quantify microbial gene families, pathway
-# abundance, and pathway coverage. MetaPhlAn was called internally
-# by HUMAnN for taxonomic prescreening using the specified MetaPhlAn
-# database and index.
-#
-# Input:
-#   KneadData-processed paired-end FASTQ files
-#
-# Main outputs:
-#   - gene family abundance profiles
-#   - pathway abundance profiles
-#   - pathway coverage profiles
-#
-# These outputs were subsequently used for downstream functional
-# analysis, pathway-level association testing, and figure generation
-# in the manuscript.
-# ============================================================
-
 #!/bin/bash
 #SBATCH --job-name=humann_4320_4390
 #SBATCH --account=project_2015601
@@ -41,20 +12,40 @@
 #SBATCH --error=/scratch/project_2012191/chifang1/HUMAnN/1_4318_4390/log/humann_4320_4390_%A_%a.err
 
 # ============================================================
-# HUMAnN functional profiling for shotgun metagenomic samples
+# Representative HUMAnN functional-profiling batch
 # ============================================================
-# This script runs HUMAnN on KneadData-processed paired-end reads.
-# For each sample, forward and reverse reads are concatenated into
-# a single FASTQ file before HUMAnN profiling.
+# This script shows one representative SLURM batch used for functional
+# profiling of KneadData-filtered shotgun metagenomic samples in the
+# Parkinson's disease gut metagenome meta-analysis.
+#
+# The final analyzed dataset contained 1,609 shotgun metagenomic samples
+# after standardized quality control and host-read removal. Functional
+# profiling was performed in multiple SLURM batches on Puhti for
+# scheduling and resource-management purposes. All batches used the same
+# HUMAnN workflow, software environment, database paths, and MetaPhlAn
+# index; only the sample ID range was changed between batches.
+#
+# This representative batch processes samples SRR19064320 to SRR19064390.
 #
 # Input:
-#   KneadData-processed paired-end FASTQ files
+#   KneadData-filtered paired-end FASTQ files:
+#   - ${SAMPLE_NAME}_1_kneaddata_paired_1.fastq
+#   - ${SAMPLE_NAME}_1_kneaddata_paired_2.fastq
 #
-# Output:
-#   HUMAnN genefamilies, pathway abundance, and pathway coverage files
+# Main processing steps:
+#   - Concatenation of paired-end reads into one FASTQ file
+#   - HUMAnN functional profiling
+#   - MetaPhlAn-based taxonomic prescreening within HUMAnN
+#   - Removal of temporary HUMAnN files and concatenated FASTQ files
 #
-# Sample range:
-#   SRR19064320 to SRR19064390
+# Main outputs:
+#   - gene family abundance profiles
+#   - pathway abundance profiles
+#   - pathway coverage profiles
+#
+# These outputs were subsequently used for downstream functional
+# analysis, pathway-level association testing, and figure generation
+# in the manuscript.
 # ============================================================
 
 set -euo pipefail
