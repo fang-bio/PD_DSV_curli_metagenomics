@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #SBATCH --account=project_2012806
 #SBATCH --partition=small
 #SBATCH --time=1-00:00:00
@@ -11,24 +10,32 @@
 #SBATCH --ntasks=1
 
 # ============================================================
-# Raw FASTQ download for public shotgun metagenomic datasets
+# Representative raw FASTQ download script for one public cohort
 # ============================================================
-# This SLURM script submits the raw-read download step for one
-# publicly available fecal shotgun metagenomic cohort included in
-# the Parkinson's disease gut microbiome meta-analysis.
+# This SLURM script documents one representative cohort-specific
+# raw-read download step used in the Parkinson's disease gut
+# metagenome meta-analysis.
 #
-# The actual download commands are stored in the accompanying
-# project-specific FTP script:
+# The full study included multiple publicly available fecal shotgun
+# metagenomic cohorts. Raw FASTQ files were downloaded using
+# cohort-specific FTP scripts. Across cohorts, the same overall
+# download workflow was used; only the project accession, working
+# directory, and accession-specific FTP links differed.
+#
+# This representative script was used for project PRJDB15956.
+# The actual FTP download commands are stored in the accompanying
+# project-specific script:
 #
 #   PRJDB15956-fastq_ftp.sh
 #
-# This script was used to retrieve raw FASTQ files from public
-# sequencing repositories before standardized quality control,
+# Downloaded raw FASTQ files were subsequently processed using the
+# standardized upstream workflow, including read-level quality control,
 # host-read removal, taxonomic profiling, and functional profiling.
 #
-# Raw sequencing files are not included in the GitHub repository
-# because of their large file size. Public accession numbers are
-# provided in the manuscript Supplementary Table 1.
+# Raw sequencing files are not included in this GitHub repository
+# because of their large file size and public availability. Complete
+# accession numbers and cohort-level information are provided in
+# Supplementary Table 1 of the manuscript.
 # ============================================================
 
 set -euo pipefail
