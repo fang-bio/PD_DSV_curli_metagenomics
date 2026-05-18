@@ -118,6 +118,7 @@ for ((sample_id=${START_ID}; sample_id<=${END_ID}; sample_id++)); do
         --input_type fastq \
         --output_file "${OUTPUT_TXT}" \
         --bowtie2db "${BOWTIE2_DB}" \
+        --index mpa_vJun23_CHOCOPhlAnSGB_202403 \
         --bowtie2out "${OUTPUT_SAM}" \
         --nproc "${SLURM_CPUS_PER_TASK}" \
         >> "${SAMPLE_LOG}" 2>&1; then
