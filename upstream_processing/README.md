@@ -12,6 +12,6 @@ Raw shotgun metagenomic reads were obtained from publicly available repositories
 - `02_kneaddata_qc_dehost_representative_batch.slurm`: Representative KneadData batch script for read-level quality control and host-read removal.
 - `03_metaphlan_taxonomic_profiling_representative_batch.slurm`: Representative MetaPhlAn batch script for taxonomic profiling of KneadData-filtered shotgun metagenomic reads.
 - `04_humann_functional_profiling_representative_batch.slurm`: Representative HUMAnN batch script for functional profiling of KneadData-filtered shotgun metagenomic reads.
-- `05_megahit_assembly_representative_batch.slurm`: Representative MEGAHIT batch script for per-sample metagenomic assembly.
+- `05_megahit_assembly_representative_batch.slurm`: Representative MEGAHIT batch script for per-sample metagenomic assembly. This assembly step documents an exploratory upstream workflow and was not used in the final statistical analyses reported in the manuscript.
 
 File paths and SLURM settings reflect the Puhti computing environment used in this study and may need to be adapted before reuse in other computing environments.
