@@ -1,1 +1,2 @@
-
+This folder contains shell and SLURM scripts used for upstream metagenomic processing, including quality control, host-read removal, taxonomic profiling, functional profiling, and table merging. Raw shotgun metagenomic reads were obtained from publicly available repositories listed in Supplementary Table 1. Because raw sequencing files are large, they are not included in this repository.
+The scripts are provided to document the computational workflow and key parameters used in the study. File paths should be adapted to the local computing environment before reuse.
