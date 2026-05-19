@@ -1,17 +1,23 @@
 # Upstream processing
 
-This folder contains representative shell and SLURM scripts used for upstream metagenomic processing in the Parkinson's disease gut metagenome meta-analysis.
+This folder contains representative shell, SLURM, and R scripts used for upstream metagenomic processing in the Parkinson's disease gut metagenomic meta-analysis.
 
-The full dataset was processed on the Puhti high-performance computing environment. For scheduling and resource-management purposes, raw-data download, quality control, taxonomic profiling, functional profiling, and optional assembly were performed in multiple cohort-specific or batch-specific jobs. The scripts provided here are representative examples of the actual workflow. Across batches, the same software environments, database paths, and processing parameters were used; only cohort identifiers or sample ID ranges differed.
+The full dataset was processed on the Puhti high-performance computing environment. For scheduling and resource-management purposes, raw-data download, quality control, taxonomic profiling, functional profiling, and pathway-table processing were performed in multiple cohort-specific or batch-specific jobs. The scripts provided here are representative examples of the actual workflow. Across batches, the same software environments, database paths, and processing parameters were used; only cohort identifiers or sample ID ranges differed.
 
 Raw shotgun metagenomic reads were obtained from publicly available repositories listed in Supplementary Table 1 of the manuscript. Raw sequencing files are not included in this repository because of their large file size and public availability.
 
 ## Scripts
 
 - `01_raw_fastq_download_representative_cohort.slurm`: Representative cohort-specific SLURM script for downloading raw FASTQ files from public sequencing repositories.
+
 - `02_kneaddata_qc_dehost_representative_batch.slurm`: Representative KneadData batch script for read-level quality control and host-read removal.
+
 - `03_metaphlan_taxonomic_profiling_representative_batch.slurm`: Representative MetaPhlAn batch script for taxonomic profiling of KneadData-filtered shotgun metagenomic reads.
+
 - `04_humann_functional_profiling_representative_batch.slurm`: Representative HUMAnN batch script for functional profiling of KneadData-filtered shotgun metagenomic reads.
-- `05_megahit_assembly_representative_batch.slurm`: Representative MEGAHIT batch script for per-sample metagenomic assembly. This assembly step documents an exploratory upstream workflow and was not used in the final statistical analyses reported in the manuscript.
+
+- `05_megahit_assembly_representative_batch.slurm`: Representative MEGAHIT batch script for per-sample metagenomic assembly. This optional assembly step documents an exploratory upstream workflow and was not used in the final statistical analyses reported in the manuscript.
+
+- `06_humann_pathabundance_merge_normalization_workflow.slurm`: Workflow script for collecting sample-level HUMAnN pathway-abundance outputs, merging them into a pathway-by-sample abundance matrix, and normalizing the merged table to relative abundance using `humann_renorm_table`.
 
 File paths and SLURM settings reflect the Puhti computing environment used in this study and may need to be adapted before reuse in other computing environments.
