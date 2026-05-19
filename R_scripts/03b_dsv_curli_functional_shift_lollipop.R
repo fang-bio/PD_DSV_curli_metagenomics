@@ -248,3 +248,86 @@ writeLines(
 
 cat("Figure 3B lollipop plot completed successfully.\n")
 cat("Outputs written to:", dir_out, "\n")
+
+# ==========================================================
+# 10. Export Figure 3B source data and summary statistics
+# ==========================================================
+
+cat("Exporting Figure 3B source data and summary statistics...\n")
+
+fig3b_plot_data <- plot_data %>%
+  transmute(
+    Feature_ID = feature,
+    Pathway_Name = as.character(CleanName),
+    Direction = Direction,
+    Beta_Coefficient = coef,
+    Abs_Effect_Size = abs(coef),
+    Q_value = target_q,
+    NegLog10_Q = -log10(target_q)
+  ) %>%
+  arrange(desc(Abs_Effect_Size))
+
+fig3b_all_significant <- df_sig %>%
+  mutate(
+    Direction = ifelse(
+      coef > 0,
+      "Positive association",
+      "Negative association"
+    )
+  ) %>%
+  transmute(
+    Feature_ID = feature,
+    Beta_Coefficient = coef,
+    Abs_Effect_Size = abs(coef),
+    Q_value = target_q,
+    Direction = Direction
+  ) %>%
+  arrange(desc(Abs_Effect_Size))
+
+fig3b_summary <- tibble(
+  Metric = c(
+    "Total pathways tested",
+    "Significant pathways (q < 0.1)",
+    "Positive pathways",
+    "Negative pathways",
+    "Pathways shown in Figure 3B"
+  ),
+  Value = c(
+    nrow(df),
+    nrow(df_sig),
+    sum(df_sig$coef > 0, na.rm = TRUE),
+    sum(df_sig$coef < 0, na.rm = TRUE),
+    nrow(plot_data)
+  )
+)
+
+write_xlsx(
+  list(
+    Figure3B_plot_data = fig3b_plot_data,
+    Significant_pathways_q0.1 = fig3b_all_significant,
+    Summary_statistics = fig3b_summary
+  ),
+  file.path(dir_out, "figure3b_source_data_and_statistics.xlsx")
+)
+
+write.csv(
+  fig3b_plot_data,
+  file.path(dir_out, "figure3b_lollipop_plot_data.csv"),
+  row.names = FALSE
+)
+
+write.csv(
+  fig3b_all_significant,
+  file.path(dir_out, "figure3b_all_significant_pathways_q0.1.csv"),
+  row.names = FALSE
+)
+
+write.csv(
+  fig3b_summary,
+  file.path(dir_out, "figure3b_summary_statistics.csv"),
+  row.names = FALSE
+)
+
+print(fig3b_summary)
+
+cat("Figure 3B source data exported successfully.\n")
