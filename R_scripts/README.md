@@ -2,7 +2,7 @@
 
 This folder contains scripts used for upstream feature preprocessing, statistical analysis, and figure generation for the Parkinson’s disease metagenomic meta-analysis.
 
-The workflow focuses on three major microbial features: **Desulfovibrio**, **Escherichia coli**, and **E. coli curli-gene abundance**. Taxonomic features were derived from MetaPhlAn profiles, whereas curli-gene abundance was derived from HUMAnN genefamilies output using curated UniRef90 identifiers corresponding to E. coli csgA–csgG genes.
+The workflow focuses on three major microbial features: **Desulfovibrio**, **Escherichia coli**, and **E. coli curli-gene abundance**. Taxonomic features were derived from MetaPhlAn profiles, whereas curli-gene abundance was derived from HUMAnN genefamilies output using curated UniRef90 identifiers corresponding to E. coli csgA–csgG genes. 
 
 ---
 
