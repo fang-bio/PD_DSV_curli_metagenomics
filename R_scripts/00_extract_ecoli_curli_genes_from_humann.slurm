@@ -203,7 +203,7 @@ echo "Collapsing duplicate sample-gene rows if present..."
 } > "${GENE_LEVEL_OUT}"
 
 N_GENE_ROWS=$(( $(wc -l < "${GENE_LEVEL_OUT}") - 1 ))
-echo "Sample-gene abundance rows retained: ${N_GENE_ROWS}"
+echo "Sample-gene abundance rows retained: ${N_GENE_ROWS}" 
 
 # ==========================================================
 # 6. Generate sample-level curli abundance
