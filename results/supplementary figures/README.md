@@ -2,11 +2,11 @@
 
 This folder contains the supplementary figures associated with the manuscript:
 
-**Multi-cohort metagenomic analysis identifies prevalence-driven Desulfovibrio–curli co-enrichment and functional reorganization in Parkinson’s disease**
+**Prevalence-level associations of *Desulfovibrio* and curli-associated genes with Parkinson’s disease and inferred functional potential**
 
-Fang Chi, Yue Yin, Shuai Ji, Tommi Vatanen, and Per E. J. Saris
+Fang Chi, Yue Yin, Shuai Ji, Tommi Vatanen and Per E. J. Saris
 
-The supplementary figures provide additional analyses supporting the main figures, including cohort effects in global microbiome structure, comparator interaction models, categorical risk stratification, and cohort annotation of functional profile ordination.
+The supplementary figures provide additional analyses supporting the main figures, including cohort-associated variation in global microbiome structure, a comparison interaction model, categorical joint associations, and cohort annotation of inferred metagenomic functional-profile ordination.
 
 ---
 
@@ -20,30 +20,32 @@ This folder contains Supplementary Figures 1–3.
 
 **Cohort structure and feature-level distributions**
 
-- **Panel a:** Principal coordinates analysis (PCoA) of gut microbial community composition based on Aitchison distance, colored by cohort identity. This panel illustrates strong cohort-driven structuring of the gut microbiome across studies.
-- **Panel b:** Variance partitioning analysis showing the proportion of community variance explained by cohort and disease status after cohort adjustment, based on PERMANOVA.
-- **Panel c:** Detection rates, or prevalence, of **Desulfovibrio**, **Escherichia coli**, and **E. coli curli genes** in Parkinson’s disease patients and healthy controls across the aggregated dataset.
+- **Panel a:** Principal coordinates analysis (PCoA) of gut microbial community composition based on Aitchison distance, with samples colored by cohort identity, illustrating cohort-associated structuring of the microbiome profiles.
+- **Panel b:** PERMANOVA effect sizes showing the proportions of community variation explained by cohort identity and PD case status in a model including cohort.
+- **Panel c:** Detection prevalence of *Desulfovibrio*, *Escherichia coli* and curli-associated genes in PD cases and controls across the aggregated dataset.
 
 ---
 
 ## Supplementary Figure 2
 
-**Comparative probability modeling and categorical risk stratification**
+**Comparative probability modelling and categorical joint associations**
 
-- **Panel a:** Predicted Parkinson’s disease probability surface for the comparator model based on standardized **Desulfovibrio** and total **E. coli** abundance. This analysis supports the specificity assessment of the main Desulfovibrio–curli interaction model.
-- **Panel b:** Odds ratios for Parkinson’s disease among individuals stratified by within-cohort median splits into single- and double-exposure groups, including **Desulfovibrio Only**, **Curli Only**, and **Both High**, relative to the double-low reference group. Data are shown as odds ratios with 95% confidence intervals.
+- **Panel a:** Predicted probability of PD case status from the comparison model based on standardized *Desulfovibrio* and total *E. coli* abundances.
+- **Panel b:** Odds ratios for PD case status across categorical *Desulfovibrio*–curli groups defined using within-cohort median abundance thresholds. The *Desulfovibrio* Only, Curli Only and Both High groups were compared with the Both Low reference group. Points indicate odds ratios, and error bars indicate 95% confidence intervals.
 
 ---
 
 ## Supplementary Figure 3
 
-**PERMANOVA effect sizes and cohort annotation for functional profile ordination**
+**PERMANOVA effect sizes and cohort annotation of inferred metagenomic functional profiles**
 
-- **Panel a:** PERMANOVA effect sizes, shown as R² values, based on Aitchison distance of global microbiome functional profiles. Bar length indicates the proportion of total variance explained by each model term.
-- **Panel b:** Principal coordinates analysis of metagenomic functional profiles computed using Aitchison distance, with samples colored by study cohort. This ordination corresponds to the main Figure 3a but uses cohort-based coloring.
+- **Panel a:** PERMANOVA effect sizes, shown as R² values, for terms included in the model based on Aitchison distances between inferred metagenomic functional profiles. Bar length indicates the proportion of total variation explained by each model term.
+- **Panel b:** Principal coordinates analysis (PCoA) of inferred metagenomic functional profiles based on Aitchison distance, with samples colored by cohort identity. The ordination corresponds to that shown in main Fig. 3a, with cohort-based coloring.
 
 ---
 
 ## Notes
 
-These supplementary figures were generated using the analysis scripts provided in the repository. They support the interpretation of cohort structure, prevalence-driven microbial feature distributions, Desulfovibrio–curli interaction specificity, categorical exposure risk stratification, and functional pathway-level reorganization.
+These supplementary figures were generated using the analysis scripts and processed data provided in this repository. They support interpretation of cohort-associated microbiome variation, detection-prevalence patterns, the comparison interaction model, categorical joint associations involving *Desulfovibrio* and curli-associated genes, and cohort-associated variation in inferred metagenomic functional profiles.
+
+The categorical Both High result represents a joint association with PD case status and should not be interpreted as evidence of disease risk or definitive statistical or biological interaction. The functional profiles were inferred from metagenomic gene content and do not directly measure gene expression or microbial activity.
