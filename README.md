@@ -2,7 +2,7 @@
 
 This repository contains analysis code and processed results associated with the manuscript:
 
-**Prevalence-level associations of *Desulfovibrio* and curli-associated genes with Parkinson’s disease and inferred functional potential**
+**Multi-cohort metagenomic analysis identifies joint enrichment of Desulfovibrio and curli-associated genes in Parkinson’s disease**
 
 This study presents a multicohort reanalysis of fecal shotgun metagenomic data from 1,609 samples across 10 Parkinson’s disease cohorts. It evaluates global microbiome structure and targeted associations of *Desulfovibrio*, *Escherichia coli*, and curli-associated genes with Parkinson’s disease case status.
 
