@@ -2,7 +2,7 @@
 
 This folder contains the main figures associated with the manuscript:
 
-**Prevalence-level associations of *Desulfovibrio* and curli-associated genes with Parkinson’s disease and inferred functional potential**
+**Multi-cohort metagenomic analysis identifies joint enrichment of Desulfovibrio and curli-associated genes in Parkinson’s disease**
 
 Fang Chi, Yue Yin, Shuai Ji, Tommi Vatanen and Per E. J. Saris
 
@@ -23,7 +23,7 @@ The main figures summarize the multicohort analysis of fecal metagenomic profile
 
 ## Figure 2
 
-**Ecological relationships and joint associations of *Desulfovibrio* and curli-associated genes with Parkinson’s disease case status**
+**Joint associations of Desulfovibrio and bacterial curli genes with PD case status**
 
 - **Panel a:** Spearman rank correlations between *Desulfovibrio* abundance and curli-associated gene abundance among samples in which both features were detected, stratified by disease status.
 - **Panel b:** Spearman rank correlations between *Desulfovibrio* abundance and total *E. coli* abundance among samples in which both features were detected, stratified by disease status.
@@ -36,7 +36,7 @@ Spearman correlation coefficients and P values are shown for the correlation ana
 
 ## Figure 3
 
-**Variation in inferred metagenomic functional profiles and pathway-level features associated with *Desulfovibrio*–curli co-elevation**
+**Desulfovibrio–curli co-elevation is associated with variation in inferred metagenomic functional profiles and pathway-level features**
 
 - **Panel a:** Principal coordinates analysis (PCoA) of inferred metagenomic functional profiles based on Aitchison distance. Samples were classified into Both Low, Curli Only, *Desulfovibrio* Only and Both High groups using within-cohort median abundance thresholds. Ellipses denote 80% confidence intervals. The PERMANOVA result for the *Desulfovibrio* × curli-associated gene interaction term is shown.
 - **Panel b:** Diverging lollipop plot of pathway-level interaction coefficients from multivariable interaction models. Pathways are ordered according to the interaction coefficient (β), and point size represents statistical significance as −log₁₀-transformed Benjamini–Hochberg-adjusted q values.
